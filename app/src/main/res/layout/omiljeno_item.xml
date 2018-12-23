@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtLinija"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Linija: " />
+
+        <TextView
+            android:id="@+id/nazivLinije"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/txtLinija"
+            android:gravity="left"
+            android:textAlignment="gravity" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtMjestoPolaska"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mjesto polaska: " />
+
+        <TextView
+            android:id="@+id/mjestoPolaska"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/txtMjestoPolaska"
+            android:gravity="left"
+            android:textAlignment="gravity" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtStanica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stanica: " />
+
+        <TextView
+            android:id="@+id/nazivStanice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/txtStanica" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtVrijeme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vrijeme: " />
+
+        <TextView
+            android:id="@+id/vrijeme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/txtVrijeme" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/spearateLine"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#00ffc0" />
+
+
+
+</LinearLayout>
