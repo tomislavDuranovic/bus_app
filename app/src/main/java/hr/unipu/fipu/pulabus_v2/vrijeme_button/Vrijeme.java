@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,18 +155,29 @@ public class Vrijeme extends AppCompatActivity {
                 vrijemeList = database.getVrijemeDolaska(nazivLinije, mSpinnerMjestoPolaska.getSelectedItem().toString());
 
                 // pozivanje metode koja izracunava dolaska na stanicu u odnosu na vrijeme polaska
-                vrijemeIzracunato = izracunaj(vrijemeList, mSpinnerVrijemePolska.getSelectedItem().toString());
+                if (mSpinnerVrijemePolska.getSelectedItem() != null){
+                    vrijemeIzracunato = izracunaj(vrijemeList, mSpinnerVrijemePolska.getSelectedItem().toString());
 
-                // adapter za recycle view
-                // prosljeduju se liste
-                adapter = new VrijemeAdapter(staniceList, vrijemeIzracunato);
-                recyclerView.setAdapter(adapter);
+                    // adapter za recycle view
+                    // prosljeduju se liste
+                    adapter = new VrijemeAdapter(staniceList, vrijemeIzracunato);
+                    recyclerView.setAdapter(adapter);
 
-                // definira vrijednosti 3. spinnera - razlicit je mjenjanjem 1. spinnera
-                listaVrijemePolaska = database.getVrijemePolaska(nazivLinije, mSpinnerMjestoPolaska.getSelectedItem().toString(), mSpinnerDan.getSelectedItem().toString());
-                adapterVrijemePolaska = new ArrayAdapter(Vrijeme.this, android.R.layout.simple_spinner_item, listaVrijemePolaska);
-                adapterVrijemePolaska.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mSpinnerVrijemePolska.setAdapter(adapterVrijemePolaska);
+                    // definira vrijednosti 3. spinnera - razlicit je mjenjanjem 1. spinnera
+                    listaVrijemePolaska = database.getVrijemePolaska(nazivLinije, mSpinnerMjestoPolaska.getSelectedItem().toString(), mSpinnerDan.getSelectedItem().toString());
+                    adapterVrijemePolaska = new ArrayAdapter(Vrijeme.this, android.R.layout.simple_spinner_item, listaVrijemePolaska);
+                    adapterVrijemePolaska.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mSpinnerVrijemePolska.setAdapter(adapterVrijemePolaska);
+                } else {
+                    List emptyStanice = new ArrayList();
+                    List emptyVrijeme = new ArrayList();
+                    adapter = new VrijemeAdapter(emptyStanice, emptyVrijeme);
+                    recyclerView.setAdapter(adapter);
+                    Toast.makeText(Vrijeme.this, "Nema polazaka!", Toast.LENGTH_SHORT).show();
+                }
+
+
+
             }
 
             @Override
@@ -188,19 +200,32 @@ public class Vrijeme extends AppCompatActivity {
                 // lista vremena dolaska na stanicu za odabrani dan
                 vrijemeList = database.getVrijemeDolaska(nazivLinije, mSpinnerMjestoPolaska.getSelectedItem().toString());
 
-                // pozivanje metode koja izracunava dolaska na stanicu u odnosu na vrijeme polaska
-                vrijemeIzracunato = izracunaj(vrijemeList, mSpinnerVrijemePolska.getSelectedItem().toString());
-
-                // adapter za recycle view
-                // prosljeduju se liste
-                adapter = new VrijemeAdapter(staniceList, vrijemeIzracunato);
-                recyclerView.setAdapter(adapter);
-
-                // definira vrijednosti 3. spinnera - razlicit je mjenjanjem 2. spinnera
                 listaVrijemePolaska = database.getVrijemePolaska(nazivLinije, mSpinnerMjestoPolaska.getSelectedItem().toString(), mSpinnerDan.getSelectedItem().toString());
                 adapterVrijemePolaska = new ArrayAdapter(Vrijeme.this, android.R.layout.simple_spinner_item, listaVrijemePolaska);
                 adapterVrijemePolaska.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mSpinnerVrijemePolska.setAdapter(adapterVrijemePolaska);
+
+                // pozivanje metode koja izracunava dolaska na stanicu u odnosu na vrijeme polaska
+                if (mSpinnerVrijemePolska.getSelectedItem() != null){
+                    vrijemeIzracunato = izracunaj(vrijemeList, mSpinnerVrijemePolska.getSelectedItem().toString());
+
+                    // adapter za recycle view
+                    // prosljeduju se liste
+                    adapter = new VrijemeAdapter(staniceList, vrijemeIzracunato);
+                    recyclerView.setAdapter(adapter);
+
+                    // definira vrijednosti 3. spinnera - razlicit je mjenjanjem 2. spinnera
+                    listaVrijemePolaska = database.getVrijemePolaska(nazivLinije, mSpinnerMjestoPolaska.getSelectedItem().toString(), mSpinnerDan.getSelectedItem().toString());
+                    adapterVrijemePolaska = new ArrayAdapter(Vrijeme.this, android.R.layout.simple_spinner_item, listaVrijemePolaska);
+                    adapterVrijemePolaska.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mSpinnerVrijemePolska.setAdapter(adapterVrijemePolaska);
+                } else {
+                    List emptyStanice = new ArrayList();
+                    List emptyVrijeme = new ArrayList();
+                    adapter = new VrijemeAdapter(emptyStanice, emptyVrijeme);
+                    recyclerView.setAdapter(adapter);
+                    Toast.makeText(Vrijeme.this, "Nema polazaka!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -250,7 +275,7 @@ public class Vrijeme extends AppCompatActivity {
         // varijabla u koju se spremaju prva dva znaka varijable vrijemePolaska - sat
         String sat = vrijemePolaska.substring(0,2);
 
-        // varijabla u koju se spremaju zadnja tri znaka varijable vrijemePolaska - minute
+        // varijabla u koju se spremaju zadnja dva znaka varijable vrijemePolaska - minute
         String minuta = vrijemePolaska.substring(3,5);
 
         // varijabla za vrijeme dolaska odredene stanice
@@ -273,7 +298,8 @@ public class Vrijeme extends AppCompatActivity {
             dolazak = Integer.valueOf(vrijeme.get(i).toString());
 
             // varijabla u kojoj se nalaze minute od vremena polazaka
-            minutaTmp = Integer.valueOf(sat);
+            minutaTmp = Integer.valueOf(minuta);
+            satTmp = Integer.valueOf(sat);
 
             // nova vrijednost je zbroj minuta od vremena polaska i vremena dolaska do stanice
             minutaTmp = minutaTmp + dolazak;
@@ -292,11 +318,11 @@ public class Vrijeme extends AppCompatActivity {
 
             // definiranje standarda za prikaz
             if (satTmp < 10){
-                finalSat = "0" + String.valueOf(satTmp);
+                finalSat = "0" + finalSat;
             }
 
             if (minutaTmp < 10){
-                finalMinuta = "0" + String.valueOf(minutaTmp);
+                finalMinuta = "0" + finalMinuta;
             }
 
             // dodavanje izracunatog vremena u listu

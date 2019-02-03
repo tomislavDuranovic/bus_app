@@ -24,7 +24,7 @@ public class Database extends SQLiteOpenHelper {
     // ime baze
     private static String DB_NAME = "bus_db.db";
     // verzija baze
-    private static int DB_VERSION = 2;
+    private static int DB_VERSION = 1;
     // instanca klase SQLiteDatabase
     private SQLiteDatabase database;
     // kontekst u kojem se koristi baza
@@ -472,6 +472,186 @@ public class Database extends SQLiteOpenHelper {
 
         db.close();
         return list;
+    }
+
+    public String getLinijaForMap(String sadrzaj){
+        String rezz = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        String[] args = {sadrzaj};
+        try {
+            c = db.rawQuery("select naziv_linije from stanice where dodatno = ?", args);
+            if (c == null) {
+                return null;
+            }
+
+            c.moveToFirst();
+
+            if (c != null && c.moveToFirst()){
+                do {
+                    rezz = c.getString(c.getColumnIndex("naziv_linije"));
+                } while (c.moveToNext());
+
+                c.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        db.close();
+        return rezz;
+    }
+
+    public String getMjestoPolaskaForMap(String sadrzaj){
+        String rezz = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        String[] args = {sadrzaj};
+        try {
+            c = db.rawQuery("select mjesto_polaska from stanice where dodatno = ?", args);
+            if (c == null) {
+                return null;
+            }
+
+            c.moveToFirst();
+
+            if (c != null && c.moveToFirst()){
+                do {
+                    rezz = c.getString(c.getColumnIndex("mjesto_polaska"));
+                } while (c.moveToNext());
+
+                c.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        db.close();
+        return rezz;
+    }
+
+    public List<String> getLatitude(String nazivLinije, String mjestoPolaska){
+        List<String> list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        String[] args = {nazivLinije, mjestoPolaska};
+        try {
+            c = db.rawQuery("select lat from stanice where naziv_linije = ? and mjesto_polaska = ? order by broj_stanice ASC", args);
+
+            if (c == null) {
+                return null;
+            }
+
+            String name;
+            c.moveToFirst();
+
+            do{
+                name = c.getString(c.getColumnIndex("lat"));
+                list.add(name);
+            } while (c.moveToNext());
+
+            c.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        db.close();
+        return list;
+    }
+
+    public List<String> getLongitude(String nazivLinije, String mjestoPolaska){
+        List<String> list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        String[] args = {nazivLinije, mjestoPolaska};
+        try {
+            c = db.rawQuery("select lng from stanice where naziv_linije = ? and mjesto_polaska = ? order by broj_stanice ASC", args);
+
+            if (c == null) {
+                return null;
+            }
+
+            String name;
+            c.moveToFirst();
+
+            do{
+                name = c.getString(c.getColumnIndex("lng"));
+                list.add(name);
+            } while (c.moveToNext());
+
+            c.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        db.close();
+        return list;
+    }
+
+    //
+
+    public String getImeStaniceSadrzaj(String sadrzaj){
+        String rezz = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        String[] args = {sadrzaj};
+        try {
+            c = db.rawQuery("select naziv from stanice where dodatno = ?", args);
+
+            if (c == null) {
+                return null;
+            }
+
+            c.moveToFirst();
+
+            do{
+                rezz = c.getString(c.getColumnIndex("naziv"));
+            } while (c.moveToNext());
+
+            c.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        db.close();
+        return rezz;
+    }
+
+    public String getVrijemeDoslskaForRealTime(String nazivLinije, String mjestoPolaska, String stanica){
+        String rezz = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        String[] args = {nazivLinije, mjestoPolaska, stanica};
+        try {
+            c = db.rawQuery("select vrijeme_dolaska from stanice where naziv_linije = ? and mjesto_polaska = ? and naziv = ?", args);
+            if (c == null) {
+                return null;
+            }
+
+            c.moveToFirst();
+
+            if (c != null && c.moveToFirst()){
+                do {
+                    rezz = c.getString(c.getColumnIndex("vrijeme_dolaska"));
+                } while (c.moveToNext());
+
+                c.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        db.close();
+        return rezz;
     }
 
     @Override

@@ -14,6 +14,7 @@
             android:id="@+id/btnRadni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:layout_alignParentStart="true"
             android:layout_marginStart="25dp"
             android:text="RADNI" />
@@ -22,6 +23,7 @@
             android:id="@+id/btnSubota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:text="SUBOTA" />
@@ -30,11 +32,21 @@
             android:id="@+id/btnNedjelja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="26dp"
             android:text="NEDJELJA" />
     </RelativeLayout>
+
+    <View
+        android:id="@+id/spearateLine"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:background="#00ffc0" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,6 +56,8 @@
 
         <TableLayout
             android:id="@+id/table"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"

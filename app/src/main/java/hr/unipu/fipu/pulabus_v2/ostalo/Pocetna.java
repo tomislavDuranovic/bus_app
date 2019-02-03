@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 
 import hr.unipu.fipu.pulabus_v2.R;
 import hr.unipu.fipu.pulabus_v2.omiljeno_button.Omiljeno;
+import hr.unipu.fipu.pulabus_v2.sadrzaj_button.MapsActivity;
+import hr.unipu.fipu.pulabus_v2.sadrzaj_button.PopisSadrzaja;
 import hr.unipu.fipu.pulabus_v2.vrijeme_button.VrijemeLinije;
 
 /**
@@ -54,6 +56,14 @@ public class Pocetna extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Pocetna.this, VrijemeLinije.class);
                 intent.putExtra("key", "forVrijeme");
+                startActivity(intent);
+            }
+        });
+
+        imageButtonSadrzaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Pocetna.this, PopisSadrzaja.class);
                 startActivity(intent);
             }
         });
